@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import socket from '../Socket';
 import axios from 'axios'
 
 
@@ -12,14 +11,16 @@ function SignIn({onLogin}) {
     const submitButton = async () =>{
         if(!chatId || !userName)
             return alert('Заполните поля');
+
         const obj = {chatId,userName};
         setLoading(true);
+
         await axios.post('/rooms', obj);
         onLogin(obj);
     };
 
     return (
-            <div className='join-block'>
+            <div className='join-block1'>
                 <input type='text' placeholder='Chat ID' value={chatId} onChange={e=>setChatId(e.target.value)}/>
                 <input type='text' placeholder='Name' value={userName} onChange={e=>setUserName(e.target.value)}/>
                 <button onClick={submitButton} disabled={isLoading}

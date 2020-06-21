@@ -3,12 +3,19 @@ const express = require('express');
 const app = express();
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
+
 app.use(express.json());
+
 
 const rooms = new Map();
 
-app.get('/rooms', (req, res) => {
-    res.json(rooms);
+app.get('/rooms/:id', (req, res) => {
+    const {id: chatId} = req.params;
+    const obj = rooms.has(chatId) ? {
+        users: [...rooms.get(chatId).get('users').values()],
+        messages: [...rooms.get(chatId).get('messages').values()],
+    } : {users: [], messages: []};
+    res.json(obj);
 });
 
 app.post('/rooms', (req, res) => {
@@ -17,19 +24,39 @@ app.post('/rooms', (req, res) => {
         rooms.set(
             chatId,
             new Map([
-            ['users', new Map()],
-            ['messages', []],
-    ]));
+                ['users', new Map()],
+                ['messages', []],
+            ]));
     }
     res.send();
 });
 
 io.on('connection', (socket) => {
-    socket.on('ROOM:JOIN',({chatId, userName}) =>{ //ждем запроса ROOM:JOIN
-       socket.join(chatId);
-       rooms.get(chatId).get('users').socket(socket.id, userName);
-       const users = rooms.get(chatId).get('users').values();
+    socket.on('ROOM:JOIN', ({chatId, userName}) => { //ждем запроса ROOM:JOIN
+        socket.join(chatId);
+        rooms.get(chatId).get('users').set(socket.id, userName);
+        const users = [...rooms.get(chatId).get('users').values()];
+        socket.to(chatId).emit('ROOM:SET_USERS', users);
     });
+
+    socket.on('ROOM:NEW_MESSAGE', ({chatId, userName , text}) => { //ждем запроса ROOM:JOIN
+        const obj = {
+            userName,
+            text
+        };
+        rooms.get(chatId).get('messages').push(obj);
+        socket.to(chatId).broadcast.emit('ROOM:NEW_MESSAGE', obj);
+    });
+
+    socket.on('disconnect', () => {
+        rooms.forEach((value, chatId) => {
+            if (value.get('users').delete(socket.id)) {
+                const users = [...value.get('users').values()];
+                socket.to(chatId).broadcast.emit('ROOM:SET_USERS', users);
+            }
+        })
+    });
+
     console.log('user connected', socket.id);
 });
 

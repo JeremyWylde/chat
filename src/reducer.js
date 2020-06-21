@@ -1,11 +1,21 @@
-export default (state, action) =>{
+export default (state, action) => {
     switch (action.type) {
         case 'JOINED':
-            return{
+            return {
                 ...state,
                 joined: true,
                 userName: action.payload.userName,
                 chatId: action.payload.chatId
+            };
+        case 'SET_USERS':
+            return {
+                ...state,
+                users: action.payload
+            };
+        case 'NEW_MESSAGE':
+            return {
+                ...state,
+                messages: [...state.messages, action.payload],
             };
         default:
             return state;

@@ -20,7 +20,12 @@ function Chat({users, messages, userName, chatId, onAddMessage}) {
         messagesRef.current.scroll(0, messagesRef.current.scrollHeight);
     }, [messages]);
 
-    console.log(users);
+    let classForMessage = (message) =>{
+        if(message.userName === userName)
+            return 'message_my';
+        else
+            return 'message';
+    };
 
     return (
         <div className="chat">
@@ -36,14 +41,14 @@ function Chat({users, messages, userName, chatId, onAddMessage}) {
             </div>
             <div className="chat-messages">
                 <div ref={messagesRef} className="messages">
-                    {messages.map(message => (
-                        <div key={message.text} className="message">
+                    {messages.map(message =>
+                        (<div key={message.text} className={classForMessage(message)}>
                             <p>{message.text}</p>
                             <div>
                                 <span>{message.userName}</span>
                             </div>
-                        </div>
-                    ))}
+                        </div>)
+                    )}
                 </div>
                 <form>
           <textarea value={messageValue} onChange={e => {

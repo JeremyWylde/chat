@@ -87,6 +87,28 @@
   font-size: 14px;
 }
 
+.message_my {
+  margin-bottom: 20px;
+  text-align: right;
+}
+
+.message_my p {
+  display: inline-flex;
+  border-radius: 10px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  background-color: #28a745;
+  padding: 10px 15px 15px;
+  color: #fff;
+  margin-bottom: 2px;
+}
+
+.message_my span {
+  opacity: 0.5;
+  font-size: 14px;
+}
+
+
+
 .chat-users ul {
   list-style: none;
   padding: 0;

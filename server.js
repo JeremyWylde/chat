@@ -60,7 +60,9 @@ io.on('connection', (socket) => {
     console.log('user connected', socket.id);
 });
 
-server.listen(9999, (err) => {
+const port = process.env.PORT || 3020;
+
+server.listen(port, (err) => {
     if (err) {
         throw Error(err);
     }

@@ -32,7 +32,7 @@ function Chat({users, messages, userName, chatId, onAddMessage}) {
             <div className="chat-users">
                 Chat:<b>{chatId}</b>
                 <hr/>
-                <b>Онлайн ({users.length}):</b>
+                <b>Users ({users.length}):</b>
                 <ul>
                     {users.map((name, index) => (
                         <li key={name + index}>{name}</li>

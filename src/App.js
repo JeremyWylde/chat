@@ -23,7 +23,7 @@ function App() {
             payload: obj
         });
         socket.emit('ROOM:JOIN', obj);// отправляем сокет запрос на бек
-        const {data} = await axios.get(`/rooms/${obj.chatId}`);
+        const {data} = await axios.get(`https://beautiful-crater-lake-06500.herokuapp.com/rooms/${obj.chatId}`);
         setUsers(data.users);
     };
 

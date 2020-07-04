@@ -15,7 +15,7 @@ function SignIn({onLogin}) {
         const obj = {chatId,userName};
         setLoading(true);
 
-        await axios.post('/rooms', obj);
+        await axios.post('https://jeremy-wylde-backend-for-chat.herokuapp.com/rooms', obj);
         onLogin(obj);
     };
 

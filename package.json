@@ -15,7 +15,8 @@
     "react-dom": "^16.13.1",
     "react-scripts": "^3.4.1",
     "socket.io": "^2.3.0",
-    "socket.io-client": "^2.3.0"
+    "socket.io-client": "^2.3.0",
+    "start": "^5.1.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -26,7 +27,6 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
   },
-  "proxy": "https://jeremy-wylde-backend-for-chat.herokuapp.com",
   "eslintConfig": {
     "extends": "react-app"
   },
